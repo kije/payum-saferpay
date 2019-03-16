@@ -81,7 +81,7 @@ class Api
         $response = $this->requestHandler->createTransactionRequest($fields);
 
         return array_filter([
-            'error'        => $response['has_error'] === true ? (isset($response['data']) ? $response['data'] : null) : false,
+            'error'        => $response['has_error'] === true ? (isset($response['data']) ? $response['data'] : true) : false,
             'token'        => $response['token'],
             'redirect_url' => $response['redirect_url'],
         ]);
@@ -99,7 +99,7 @@ class Api
         $params = [];
 
         if ($response['has_error'] === true) {
-            $params['error'] = isset($response['error']) ? $response['error'] : null;
+            $params['error'] = isset($response['error']) ? $response['error'] : true;
         } else {
 
             $transaction = isset($response['transaction'])  ? $response['transaction'] : [];
@@ -161,7 +161,7 @@ class Api
         $params = [];
 
         if ($response['has_error'] === true) {
-            $params['error'] = isset($response['error']) ? $response['error'] : null;
+            $params['error'] = isset($response['error']) ? $response['error'] : true;
         } else {
             $params['transaction_id'] = $response['transaction_id'];
             $params['transaction_status'] = $response['transaction_status'];
@@ -184,7 +184,7 @@ class Api
         $params = [];
 
         if ($response['has_error'] === true) {
-            $params['error'] = isset($response['error']) ? $response['error'] : null;
+            $params['error'] = isset($response['error']) ? $response['error'] : true;
         } else {
             $transaction = $response['transaction'];
             $params['transaction_id'] = $transaction['Id'];
