@@ -80,7 +80,7 @@ class Api
         $response = $this->requestHandler->createTransactionRequest($fields);
 
         return array_filter([
-            'error'        => $response['has_error'] === true ? $response['data'] : false,
+            'error'        => $response['has_error'] === true ? (isset($response['data']) ? $response['data'] : null) : false,
             'token'        => $response['token'],
             'redirect_url' => $response['redirect_url'],
         ]);
@@ -98,43 +98,47 @@ class Api
         $params = [];
 
         if ($response['has_error'] === true) {
-            $params['error'] = $response['error'];
+            $params['error'] = isset($response['error']) ? $response['error'] : null;
         } else {
 
-            $transaction = $response['transaction'];
-            $params['transaction_type'] = $transaction['Type'];
-            $params['transaction_status'] = $transaction['Status'];
-            $params['transaction_id'] = $transaction['Id'];
-            $params['transaction_date'] = $transaction['Date'];
-            $params['transaction_amount'] = $transaction['Amount']['Value'];
-            $params['transaction_currency_code'] = $transaction['Amount']['CurrencyCode'];
-            $params['transaction_acquirer_name'] = $transaction['AcquirerName'];
-            $params['transaction_acquirer_reference'] = $transaction['AcquirerReference'];
-            $params['transaction_six_transaction_reference'] = $transaction['SixTransactionReference'];
-            $params['transaction_approval_code'] = $transaction['ApprovalCode'];
+            $transaction = isset($response['transaction'])  ? $response['transaction'] : [];
+            $params['transaction_type'] = isset($transaction['Type']) ? $transaction['Type'] : null;
+            $params['transaction_status'] = isset($transaction['Status']) ? $transaction['Status'] : null;
+            $params['transaction_id'] = isset($transaction['Id'])  ? $transaction['Id'] : null;
+            $params['transaction_date'] = isset($transaction['Date'])  ? $transaction['Date'] : null;
 
-            $paymentMeans = $response['payment_means'];
-            $params['payment_means_brand_payment_method'] = $paymentMeans['Brand']['PaymentMethod'];
-            $params['payment_means_brand_name'] = $paymentMeans['Brand']['Name'];
+            $params['transaction_amount'] = isset($transaction['Amount']['Value'])  ? $transaction['Amount']['Value'] : null;
+            $params['transaction_currency_code'] = isset($transaction['Amount']['CurrencyCode'])  ? $transaction['Amount']['CurrencyCode'] : null;
 
-            $params['payment_means_display_text'] = $paymentMeans['DisplayText'];
-            $params['payment_means_wallet'] = $paymentMeans['Wallet'];
+            $params['transaction_acquirer_name'] = isset($transaction['AcquirerName'])  ? $transaction['AcquirerName'] : null;
+            $params['transaction_acquirer_reference'] = isset($transaction['AcquirerReference'])  ? $transaction['AcquirerReference'] : null;
+            $params['transaction_six_transaction_reference'] = isset($transaction['SixTransactionReference'])  ? $transaction['SixTransactionReference'] : null;
+            $params['transaction_approval_code'] = isset($transaction['ApprovalCode'])  ? $transaction['ApprovalCode'] : null;
 
-            $params['payment_means_cart_masked_number'] = $paymentMeans['Card']['MaskedNumber'];
-            $params['payment_means_cart_exp_year'] = $paymentMeans['Card']['ExpYear'];
-            $params['payment_means_cart_exp_month'] = $paymentMeans['Card']['ExpMonth'];
-            $params['payment_means_cart_holder_name'] = $paymentMeans['Card']['HolderName'];
-            $params['payment_means_cart_hash_value'] = $paymentMeans['Card']['HashValue'];
 
-            $params['payment_means_bank_account_iban'] = $paymentMeans['BankAccount']['IBAN'];
-            $params['payment_means_bank_account_holder_name'] = $paymentMeans['BankAccount']['HolderName'];
-            $params['payment_means_bank_account_bic'] = $paymentMeans['BankAccount']['BIC'];
-            $params['payment_means_bank_account_bank_name'] = $paymentMeans['BankAccount']['BankName'];
-            $params['payment_means_bank_account_country_code'] = $paymentMeans['BankAccount']['CountryCode'];
 
-            $payer = $response['payer'];
-            $params['payment_payer_ip_address'] = $payer['IpAddress'];
-            $params['payment_payer_ip_location'] = $payer['IpLocation'];
+            $paymentMeans = isset($response['payment_means'])  ? $response['payment_means'] : [];
+            $params['payment_means_brand_payment_method'] = isset($paymentMeans['Brand']['PaymentMethod'])  ? $paymentMeans['Brand']['PaymentMethod'] : null;
+            $params['payment_means_brand_name'] = isset($paymentMeans['Brand']['Name'])  ? $paymentMeans['Brand']['Name'] : null;
+
+            $params['payment_means_display_text'] = isset($paymentMeans['DisplayText']) ? $paymentMeans['DisplayText'] : null;
+            $params['payment_means_wallet'] = isset($paymentMeans['Wallet']) ? $paymentMeans['Wallet'] : null;
+
+            $params['payment_means_cart_masked_number'] = isset($paymentMeans['Card']['MaskedNumber'])  ? $paymentMeans['Card']['MaskedNumber'] : null;
+            $params['payment_means_cart_exp_year'] = isset($paymentMeans['Card']['ExpYear'])  ? $paymentMeans['Card']['ExpYear'] : null;
+            $params['payment_means_cart_exp_month'] = isset($paymentMeans['Card']['ExpMonth'])  ? $paymentMeans['Card']['ExpMonth'] : null;
+            $params['payment_means_cart_holder_name'] = isset($paymentMeans['Card']['HolderName'])  ? $paymentMeans['Card']['HolderName'] : null;
+            $params['payment_means_cart_hash_value'] = isset($paymentMeans['Card']['HashValue'])  ? $paymentMeans['Card']['HashValue'] : null;
+
+            $params['payment_means_bank_account_iban'] = isset($paymentMeans['BankAccount']['IBAN'])  ? $paymentMeans['BankAccount']['IBAN'] : null;
+            $params['payment_means_bank_account_holder_name'] = isset($paymentMeans['BankAccount']['HolderName'])  ? $paymentMeans['BankAccount']['HolderName'] : null;
+            $params['payment_means_bank_account_bic'] = isset($paymentMeans['BankAccount']['BIC'])  ? $paymentMeans['BankAccount']['BIC'] : null;
+            $params['payment_means_bank_account_bank_name'] = isset($paymentMeans['BankAccount']['BankName'])  ? $paymentMeans['BankAccount']['BankName'] : null;
+            $params['payment_means_bank_account_country_code'] = isset($paymentMeans['BankAccount']['CountryCode'])  ? $paymentMeans['BankAccount']['CountryCode'] : null;
+
+            $payer = isset($response['payer'])  ? $response['payer'] : [];
+            $params['payment_payer_ip_address'] = isset($payer['IpAddress'])  ? $payer['IpAddress'] : null;
+            $params['payment_payer_ip_location'] = isset($payer['IpLocation'])  ? $payer['IpLocation'] : null;
         }
 
         return array_filter($params);
@@ -151,7 +155,7 @@ class Api
         $params = [];
 
         if ($response['has_error'] === true) {
-            $params['error'] = $response['error'];
+            $params['error'] = isset($response['error']) ? $response['error'] : null;
         } else {
             $params['transaction_id'] = $response['transaction_id'];
             $params['transaction_status'] = $response['transaction_status'];
@@ -174,7 +178,7 @@ class Api
         $params = [];
 
         if ($response['has_error'] === true) {
-            $params['error'] = $response['error'];
+            $params['error'] = isset($response['error']) ? $response['error'] : null;
         } else {
             $transaction = $response['transaction'];
             $params['transaction_id'] = $transaction['Id'];
