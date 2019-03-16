@@ -44,6 +44,7 @@ class SaferpayGatewayFactory extends GatewayFactory
                 'environment'        => Api::TEST,
                 'specVersion'        => '1.8', //https://saferpay.github.io/jsonapi/index.html
                 'optionalParameters' => [],
+                'scdEnabled'         => false,
                 'sandbox'            => true,
             ];
             $config->defaults($config['payum.default_options']);
@@ -68,6 +69,7 @@ class SaferpayGatewayFactory extends GatewayFactory
                         'customer_id'     => $config['customerId'],
                         'terminal_id'     => $config['terminalId'],
                         'lock_path'       => $config['lockPath'],
+                        'scd_enabled'     => $config['scdEnabled'],
                         'optional_params' => isset($config['optionalParameters']) && is_array($config['optionalParameters']) ? $config['optionalParameters'] : []
                     ],
                     $config['payum.http_client'],

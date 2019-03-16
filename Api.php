@@ -26,7 +26,8 @@ class Api
     const PRODUCTION = 'production';
 
     protected $options = [
-        'environment' => self::TEST
+        'environment' => self::TEST,
+        'scd_enabled' => false,
     ];
 
     /**
@@ -139,6 +140,11 @@ class Api
             $payer = isset($response['payer'])  ? $response['payer'] : [];
             $params['payment_payer_ip_address'] = isset($payer['IpAddress'])  ? $payer['IpAddress'] : null;
             $params['payment_payer_ip_location'] = isset($payer['IpLocation'])  ? $payer['IpLocation'] : null;
+
+            $registrationResult = isset($response['registration_result'])  ? $response['registration_result'] : [];
+            if (isset($registrationResult['Success']) && $registrationResult['Success'] === true) {
+                $params['payment_registration_alias'] = isset($registrationResult['Alias'])  ? $registrationResult['Alias'] : null;
+            }
         }
 
         return array_filter($params);

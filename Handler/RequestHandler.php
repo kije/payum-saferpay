@@ -79,6 +79,13 @@ class RequestHandler
         // merge additional data coming from the convert payment action (and extensions) like language
         $requestData = $this->mergeOptionalPaymentExtensionData($requestData, $data);
 
+        if ($this->options['scd_enabled'] === true) {
+            $requestData['RegisterAlias'] = [
+                'IdGenerator' => 'RANDOM_UNIQUE',
+                'Lifetime' => '1600',
+            ];
+        }
+
         // merge optional api options
         if (!empty($this->options['optional_params'])) {
             $requestData = $this->mergeOptionalApiOptions($requestData, $this->options['optional_params']);
@@ -131,6 +138,7 @@ class RequestHandler
             'transaction'   => null,
             'payment_means' => null,
             'payer'         => null,
+            'registration_result' => null,
             'has_error'     => false,
             'error'         => null
         ];
@@ -140,6 +148,7 @@ class RequestHandler
             $response['transaction'] = $responseData['Transaction'];
             $response['payment_means'] = $responseData['PaymentMeans'];
             $response['payer'] = $responseData['Payer'];
+            $response['registration_result'] = isset($responseData['RegistrationResult']) ? $responseData['RegistrationResult'] : [];
         } else {
             $response['has_error'] = true;
             $response['error'] = $request['data'];
