@@ -18,6 +18,8 @@ use Payum\Core\Request\Capture;
 use Payum\Core\Security\GenericTokenFactoryAwareInterface;
 use DachcomDigital\Payum\Saferpay\Api;
 use DachcomDigital\Payum\Saferpay\Request\Api\CreateTransaction;
+use DachcomDigital\Payum\Saferpay\Request\Api\CapturePayment;
+use Payum\Core\Request\GetHumanStatus;
 
 class CaptureAction implements ActionInterface, ApiAwareInterface, GatewayAwareInterface, GenericTokenFactoryAwareInterface
 {
@@ -90,9 +92,29 @@ class CaptureAction implements ActionInterface, ApiAwareInterface, GatewayAwareI
             $this->gateway->execute(new CreateTransaction($details));
         }
 
-        $details['capture_state_reached'] = true;
+        if($this->api->getLockHandler()->transactionIsLocked($details['token'])) {
+            // wait a second, since a locked payment most likely means the payment is being captured via notify action
+            sleep(1);
+            return;
+        }
+
+        // set lock
+        $this->api->getLockHandler()->lockTransaction($details['token']);
+
         $this->gateway->execute(new Sync($details));
 
+        // capture if not already captured
+        if (isset($details['transaction_status']) && in_array($details['transaction_status'], ['PENDING', 'AUTHORIZED'])) {
+            $this->gateway->execute($status = new GetHumanStatus($request->getToken()));
+
+            if (!$status->isCaptured()) {
+                $this->gateway->execute(new CapturePayment($details));
+            }
+        }
+
+        $this->gateway->execute(new Sync($details));
+
+        $this->api->getLockHandler()->unlockTransaction($details['token']);
     }
 
     /**
