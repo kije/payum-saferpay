@@ -92,9 +92,13 @@ class CaptureAction implements ActionInterface, ApiAwareInterface, GatewayAwareI
             $this->gateway->execute(new CreateTransaction($details));
         }
 
-        if($this->api->getLockHandler()->transactionIsLocked($details['token'])) {
-            // wait a second, since a locked payment most likely means the payment is being captured via notify action
-            sleep(1);
+        if ($this->api->getLockHandler()->transactionIsLocked($details['token'])) {
+            // if is locked, probably payment is beeing processed by notify action. Lets wait a little for the capturing to finish
+            $waitCount = 10;
+            while ($this->api->getLockHandler()->transactionIsLocked($details['token']) && ($waitCount > 0)) {
+                usleep(500000); // wait increment 0.5 sec
+                $waitCount--;
+            }
             return;
         }
 
