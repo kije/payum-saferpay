@@ -143,7 +143,8 @@ class Api
 
             $registrationResult = isset($response['registration_result'])  ? $response['registration_result'] : [];
             if (isset($registrationResult['Success']) && $registrationResult['Success'] === true) {
-                $params['payment_registration_alias'] = isset($registrationResult['Alias'])  ? $registrationResult['Alias'] : null;
+                $params['payment_registration_alias_id'] = isset($registrationResult['Alias']['Id'])  ? $registrationResult['Alias']['Id'] : null;
+                $params['payment_registration_alias_lifetime'] = isset($registrationResult['Alias']['Lifetime'])  ? $registrationResult['Alias']['Lifetime'] : null;
             }
         }
 

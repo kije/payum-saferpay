@@ -41,7 +41,6 @@ class SaferpayGatewayFactory extends GatewayFactory
 
         if (false == $config['payum.api']) {
             $config['payum.default_options'] = [
-                'environment'        => Api::TEST,
                 'specVersion'        => '1.8', //https://saferpay.github.io/jsonapi/index.html
                 'optionalParameters' => [],
                 'scdEnabled'         => false,
@@ -62,7 +61,7 @@ class SaferpayGatewayFactory extends GatewayFactory
 
                 return new Api(
                     [
-                        'sandbox'         => $config['environment'] === Api::TEST,
+                        'sandbox'         => $config['sandbox'],
                         'username'        => $config['username'],
                         'password'        => $config['password'],
                         'spec_version'    => $config['specVersion'],
