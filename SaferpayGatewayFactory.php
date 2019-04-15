@@ -6,6 +6,7 @@ use DachcomDigital\Payum\Saferpay\Action\AliasAction;
 use DachcomDigital\Payum\Saferpay\Action\Api\CapturePaymentAction;
 use DachcomDigital\Payum\Saferpay\Action\Api\CreateAliasAction;
 use DachcomDigital\Payum\Saferpay\Action\Api\CreateTransactionAction;
+use DachcomDigital\Payum\Saferpay\Action\Api\GetAliasDataAction;
 use DachcomDigital\Payum\Saferpay\Action\Api\GetTransactionDataAction;
 use DachcomDigital\Payum\Saferpay\Action\Api\RefundTransactionAction;
 use DachcomDigital\Payum\Saferpay\Action\AuthorizeDirectAction;
@@ -45,7 +46,7 @@ class SaferpayGatewayFactory extends GatewayFactory
             'payum.action.api.capture_payment'      => new CapturePaymentAction(),
             'payum.action.api.authorize_direct'      => new \DachcomDigital\Payum\Saferpay\Action\Api\AuthorizeDirectAction(),
             'payum.action.api.create_alias'      => new CreateAliasAction(),
-            'payum.action.api.get_alias_data'      => new GetAliasData(),
+            'payum.action.api.get_alias_data'      => new GetAliasDataAction(),
         ]);
 
         if (false == $config['payum.api']) {
