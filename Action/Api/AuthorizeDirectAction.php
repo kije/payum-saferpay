@@ -50,7 +50,6 @@ class AuthorizeDirectAction implements ActionInterface, ApiAwareInterface
         $details->replace(
             $this->api->authorizeDirect((array)$details)
         );
-
     }
 
     /**

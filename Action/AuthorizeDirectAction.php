@@ -50,6 +50,8 @@ class AuthorizeDirectAction implements ActionInterface, ApiAwareInterface, Gatew
 
         $this->gateway->execute(new AuthorizeDirectPayment($details));
 
+        $this->gateway->execute(new CapturePayment($details));
+
         $this->gateway->execute($status = new GetHumanStatus($request->getToken()));
     }
 
