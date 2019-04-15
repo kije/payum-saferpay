@@ -42,6 +42,11 @@ class AuthorizeDirectAction implements ActionInterface, ApiAwareInterface
             return;
         }
 
+        // transaction already authorized
+        if(isset($details['transaction_authorized']) && $details['transaction_authorized'] === true) {
+            return;
+        }
+
         $details->replace(
             $this->api->authorizeDirect((array)$details)
         );

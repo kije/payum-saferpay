@@ -147,7 +147,7 @@ class Api
                 $params['payment_registration_alias_lifetime'] = isset($registrationResult['Alias']['Lifetime'])  ? $registrationResult['Alias']['Lifetime'] : null;
             }
 
-            $params['transaction_captured'] = true;
+            $params['transaction_authorized'] = true;
         }
 
         return array_filter($params);

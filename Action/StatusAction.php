@@ -66,7 +66,12 @@ class StatusAction implements ActionInterface, ApiAwareInterface
             return;
         }
 
-        if (!isset($details['token']) || !strlen($details['token'])) {
+        if (isset($details['transaction_authorized']) && $details['transaction_authorized'] === true) {
+            $request->markAuthorized();
+            return;
+        }
+
+        if (!isset($details['token']) || !strlen($details['token']) || !isset($details['transaction_id'])) {
             $request->markNew();
             return;
         }
