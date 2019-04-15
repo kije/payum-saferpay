@@ -127,9 +127,14 @@ class CaptureAction implements ActionInterface, ApiAwareInterface, GatewayAwareI
      */
     public function supports($request)
     {
+        if (!$request instanceof Capture ) {
+            return false;
+        }
+
+        $model = $request->getModel();
+
         return
-            $request instanceof Capture &&
-            $request->getModel() instanceof \ArrayAccess &&
-            !isset($details['scd_alias']);
+            $model instanceof \ArrayAccess &&
+            !isset($model['scd_alias']);
     }
 }
