@@ -6,6 +6,7 @@ use DachcomDigital\Payum\Saferpay\Action\Api\CapturePaymentAction;
 use DachcomDigital\Payum\Saferpay\Action\Api\CreateTransactionAction;
 use DachcomDigital\Payum\Saferpay\Action\Api\GetTransactionDataAction;
 use DachcomDigital\Payum\Saferpay\Action\Api\RefundTransactionAction;
+use DachcomDigital\Payum\Saferpay\Action\AuthorizeDirectAction;
 use DachcomDigital\Payum\Saferpay\Action\CaptureAction;
 use DachcomDigital\Payum\Saferpay\Action\ConvertPaymentAction;
 use DachcomDigital\Payum\Saferpay\Action\NotifyAction;
@@ -27,6 +28,7 @@ class SaferpayGatewayFactory extends GatewayFactory
             'payum.factory_title' => 'Saferpay',
 
             'payum.action.capture'         => new CaptureAction(),
+            'payum.action.authorize_direct' => new AuthorizeDirectAction(),
             'payum.action.status'          => new StatusAction(),
             'payum.action.notify'          => new NotifyAction($config['payum.security.token_storage']),
             'payum.action.sync'            => new SyncAction(),
@@ -37,6 +39,7 @@ class SaferpayGatewayFactory extends GatewayFactory
             'payum.action.api.get_transaction_data' => new GetTransactionDataAction(),
             'payum.action.api.refund_transaction'   => new RefundTransactionAction(),
             'payum.action.api.capture_payment'      => new CapturePaymentAction(),
+            'payum.action.api.authorize_direct'      => new \DachcomDigital\Payum\Saferpay\Action\Api\AuthorizeDirectAction(),
         ]);
 
         if (false == $config['payum.api']) {

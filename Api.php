@@ -92,6 +92,72 @@ class Api
      *
      * @return array
      */
+    public function authorizeDirect(array $fields)
+    {
+        $response = $this->requestHandler->authorizeDirectRequest($fields);
+
+        $params = [];
+
+        if ($response['has_error'] === true) {
+            $params['error'] = isset($response['error']) ? $response['error'] : true;
+        } else {
+
+            $transaction = isset($response['transaction'])  ? $response['transaction'] : [];
+            $params['transaction_type'] = isset($transaction['Type']) ? $transaction['Type'] : null;
+            $params['transaction_status'] = isset($transaction['Status']) ? $transaction['Status'] : null;
+            $params['transaction_id'] = isset($transaction['Id'])  ? $transaction['Id'] : null;
+            $params['transaction_date'] = isset($transaction['Date'])  ? $transaction['Date'] : null;
+
+            $params['transaction_amount'] = isset($transaction['Amount']['Value'])  ? $transaction['Amount']['Value'] : null;
+            $params['transaction_currency_code'] = isset($transaction['Amount']['CurrencyCode'])  ? $transaction['Amount']['CurrencyCode'] : null;
+
+            $params['transaction_acquirer_name'] = isset($transaction['AcquirerName'])  ? $transaction['AcquirerName'] : null;
+            $params['transaction_acquirer_reference'] = isset($transaction['AcquirerReference'])  ? $transaction['AcquirerReference'] : null;
+            $params['transaction_six_transaction_reference'] = isset($transaction['SixTransactionReference'])  ? $transaction['SixTransactionReference'] : null;
+            $params['transaction_approval_code'] = isset($transaction['ApprovalCode'])  ? $transaction['ApprovalCode'] : null;
+
+
+
+            $paymentMeans = isset($response['payment_means'])  ? $response['payment_means'] : [];
+            $params['payment_means_brand_payment_method'] = isset($paymentMeans['Brand']['PaymentMethod'])  ? $paymentMeans['Brand']['PaymentMethod'] : null;
+            $params['payment_means_brand_name'] = isset($paymentMeans['Brand']['Name'])  ? $paymentMeans['Brand']['Name'] : null;
+
+            $params['payment_means_display_text'] = isset($paymentMeans['DisplayText']) ? $paymentMeans['DisplayText'] : null;
+            $params['payment_means_wallet'] = isset($paymentMeans['Wallet']) ? $paymentMeans['Wallet'] : null;
+
+            $params['payment_means_cart_masked_number'] = isset($paymentMeans['Card']['MaskedNumber'])  ? $paymentMeans['Card']['MaskedNumber'] : null;
+            $params['payment_means_cart_exp_year'] = isset($paymentMeans['Card']['ExpYear'])  ? $paymentMeans['Card']['ExpYear'] : null;
+            $params['payment_means_cart_exp_month'] = isset($paymentMeans['Card']['ExpMonth'])  ? $paymentMeans['Card']['ExpMonth'] : null;
+            $params['payment_means_cart_holder_name'] = isset($paymentMeans['Card']['HolderName'])  ? $paymentMeans['Card']['HolderName'] : null;
+            $params['payment_means_cart_hash_value'] = isset($paymentMeans['Card']['HashValue'])  ? $paymentMeans['Card']['HashValue'] : null;
+
+            $params['payment_means_bank_account_iban'] = isset($paymentMeans['BankAccount']['IBAN'])  ? $paymentMeans['BankAccount']['IBAN'] : null;
+            $params['payment_means_bank_account_holder_name'] = isset($paymentMeans['BankAccount']['HolderName'])  ? $paymentMeans['BankAccount']['HolderName'] : null;
+            $params['payment_means_bank_account_bic'] = isset($paymentMeans['BankAccount']['BIC'])  ? $paymentMeans['BankAccount']['BIC'] : null;
+            $params['payment_means_bank_account_bank_name'] = isset($paymentMeans['BankAccount']['BankName'])  ? $paymentMeans['BankAccount']['BankName'] : null;
+            $params['payment_means_bank_account_country_code'] = isset($paymentMeans['BankAccount']['CountryCode'])  ? $paymentMeans['BankAccount']['CountryCode'] : null;
+
+            $payer = isset($response['payer'])  ? $response['payer'] : [];
+            $params['payment_payer_ip_address'] = isset($payer['IpAddress'])  ? $payer['IpAddress'] : null;
+            $params['payment_payer_ip_location'] = isset($payer['IpLocation'])  ? $payer['IpLocation'] : null;
+
+            $registrationResult = isset($response['registration_result'])  ? $response['registration_result'] : [];
+            if (isset($registrationResult['Success']) && $registrationResult['Success'] === true) {
+                $params['payment_registration_alias_id'] = isset($registrationResult['Alias']['Id'])  ? $registrationResult['Alias']['Id'] : null;
+                $params['payment_registration_alias_lifetime'] = isset($registrationResult['Alias']['Lifetime'])  ? $registrationResult['Alias']['Lifetime'] : null;
+            }
+
+            $params['transaction_captured'] = true;
+        }
+
+        return array_filter($params);
+    }
+
+    /**
+     * @param $token
+     *
+     * @return array
+     */
     public function getTransactionData($token)
     {
         $response = $this->requestHandler->createTransactionAssertRequest($token);

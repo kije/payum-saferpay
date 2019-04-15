@@ -57,6 +57,7 @@ class CaptureAction implements ActionInterface, ApiAwareInterface, GatewayAwareI
             $details['transaction_failed'] = true;
         }
 
+
         if (false == $details['token']) {
 
             if (false == $details['success_url'] && $request->getToken()) {
@@ -128,6 +129,7 @@ class CaptureAction implements ActionInterface, ApiAwareInterface, GatewayAwareI
     {
         return
             $request instanceof Capture &&
-            $request->getModel() instanceof \ArrayAccess;
+            $request->getModel() instanceof \ArrayAccess &&
+            !isset($details['scd_alias']);
     }
 }

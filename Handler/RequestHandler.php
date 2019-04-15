@@ -12,6 +12,7 @@ class RequestHandler
 
     const TRANSACTION_INITIALIZE_PATH = '/Payment/v1/Transaction/Initialize';
     const TRANSACTION_AUTHORIZE_PATH = '/Payment/v1/Transaction/Authorize';
+    const TRANSACTION_AUTHORIZE_DIRECT_PATH = '/Payment/v1/Transaction/AuthorizeDirect';
     const TRANSACTION_CAPTURE_PATH = '/Payment/v1/Transaction/Capture';
     const TRANSACTION_CANCEL_PATH = '/Payment/v1/Transaction/Cancel';
     const TRANSACTION_REFUND_PATH = '/Payment/v1/Transaction/Refund';
@@ -107,6 +108,61 @@ class RequestHandler
             $response['token'] = $responseData['Token'];
             $response['expiration'] = $responseData['Expiration'];
             $response['redirect_url'] = $responseData['RedirectUrl'];
+        } else {
+            $response['has_error'] = true;
+            $response['error'] = $request['data'];
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+    public function authorizeDirectRequest($data)
+    {
+        $requestData = [
+            'RequestHeader' => [
+                'SpecVersion'    => $this->options['spec_version'],
+                'CustomerId'     => $this->options['customer_id'],
+                'RequestId'      => uniqid(),
+                'RetryIndicator' => 0,
+            ],
+            'TerminalId'    => $this->options['terminal_id'],
+            'Payment'       => [
+                'Amount'      => [
+                    'Value'        => $data['amount'],
+                    'CurrencyCode' => $data['currency_code'],
+                ],
+                'OrderId'     => $data['order_id'],
+                'Description' => $data['description'],
+            ],
+            'PaymentMeans'    => [
+                'Alias' => [
+                    'Id' => $data['scd_alias']
+                ],
+            ],
+        ];
+
+        // merge additional data coming from the convert payment action (and extensions) like language
+        $requestData = $this->mergeOptionalPaymentExtensionData($requestData, $data);
+
+
+        $url = $this->getApiEndpoint() . self::TRANSACTION_AUTHORIZE_DIRECT_PATH;
+        $request = $this->doRequest($requestData, $url);
+
+        $response = [
+            'transaction'   => null,
+            'payment_means' => null,
+            'has_error'     => false,
+            'error'         => null
+        ];
+
+        if ($request['error'] === false) {
+            $responseData = $request['data'];
+            $response['transaction'] = $responseData['Transaction'];
+            $response['payment_means'] = $responseData['PaymentMeans'];
         } else {
             $response['has_error'] = true;
             $response['error'] = $request['data'];
