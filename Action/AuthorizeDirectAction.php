@@ -48,11 +48,13 @@ class AuthorizeDirectAction implements ActionInterface, ApiAwareInterface, Gatew
 
         $details = ArrayObject::ensureArrayObject($request->getModel());
 
+        $details['is_direct_authorize'] = true;
+
         $this->gateway->execute(new AuthorizeDirectPayment($details));
 
         $this->gateway->execute(new CapturePayment($details));
 
-        $this->gateway->execute($status = new GetHumanStatus($request->getToken()));
+        $this->gateway->execute(new Sync($details));
     }
 
     /**
