@@ -17,6 +17,9 @@ class RequestHandler
     const TRANSACTION_CANCEL_PATH = '/Payment/v1/Transaction/Cancel';
     const TRANSACTION_REFUND_PATH = '/Payment/v1/Transaction/Refund';
 
+    const ALIAS_INSERT_PATH = '/Payment/v1/Alias/Insert';
+    const ALIAS_ASSERT_INSERT_PATH = '/Payment/v1/Alias/AssertInsert';
+
     /**
      * @var HttpClientInterface
      */
@@ -120,7 +123,7 @@ class RequestHandler
      * @param $data
      * @return array
      */
-    public function authorizeDirectRequest($data)
+    public function createAuthorizeDirectRequest($data)
     {
         $requestData = [
             'RequestHeader' => [
@@ -297,6 +300,93 @@ class RequestHandler
             $response['transaction'] = $responseData['Transaction'];
             $response['payment_means'] = $responseData['PaymentMeans'];
             $response['dcc'] = $responseData['Dcc'];
+        } else {
+            $response['has_error'] = true;
+            $response['error'] = $request['data'];
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+    public function createAliasInsertRequest($data)
+    {
+        $requestData = [
+            'RequestHeader'        => [
+                'SpecVersion'    => $this->options['spec_version'],
+                'CustomerId'     => $this->options['customer_id'],
+                'RequestId'      => uniqid(),
+                'RetryIndicator' => 0,
+            ],
+            'RegisterAlias' => [
+                'IdGenerator' => 'RANDOM_UNIQUE',
+                'Lifetime' => '1600',
+            ],
+            'Type' => 'CARD',
+            'ReturnUrls'    => [
+                'Success' => $data['success_url'],
+                'Fail'    => $data['fail_url'],
+                'Abort'   => $data['abort_url'],
+            ],
+        ];
+
+        $url = $this->getApiEndpoint() . self::ALIAS_INSERT_PATH;
+        $request = $this->doRequest($requestData, $url);
+
+        $response = [
+            'redirect_url' => null,
+            'token'        => null,
+            'expiration'   => null,
+            'has_error'    => false,
+            'error'        => null
+        ];
+
+        if ($request['error'] === false) {
+            $responseData = $request['data'];
+            $response['token'] = $responseData['Token'];
+            $response['expiration'] = $responseData['Expiration'];
+            $response['redirect_url'] = $responseData['RedirectUrl'];
+        } else {
+            $response['has_error'] = true;
+            $response['error'] = $request['data'];
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param $token
+     * @return array
+     */
+    public function createAliasAssertInsertRequest($token)
+    {
+        $requestData = [
+            'RequestHeader' => [
+                'SpecVersion'    => $this->options['spec_version'],
+                'CustomerId'     => $this->options['customer_id'],
+                'RequestId'      => uniqid(),
+                'RetryIndicator' => 0,
+            ],
+            'Token'         => $token,
+        ];
+
+        $url = $this->getApiEndpoint() . self::ALIAS_ASSERT_INSERT_PATH;
+        $request = $this->doRequest($requestData, $url);
+
+        $response = [
+            'payment_means' => null,
+            'alias' => null,
+            'has_error'     => false,
+            'error'         => null
+        ];
+
+        if ($request['error'] === false) {
+            $responseData = $request['data'];
+            $response['alias'] = $responseData['Alias'];
+            $response['payment_means'] = $responseData['PaymentMeans'];
         } else {
             $response['has_error'] = true;
             $response['error'] = $request['data'];

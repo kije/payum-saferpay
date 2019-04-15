@@ -94,7 +94,7 @@ class Api
      */
     public function authorizeDirect(array $fields)
     {
-        $response = $this->requestHandler->authorizeDirectRequest($fields);
+        $response = $this->requestHandler->createAuthorizeDirectRequest($fields);
 
         $params = [];
 
@@ -264,5 +264,65 @@ class Api
 
         return array_filter($params);
 
+    }
+
+    /**
+     * @param array $fields
+     *
+     * @return array
+     */
+    public function insertAlias(array $fields)
+    {
+        $response = $this->requestHandler->createAliasInsertRequest($fields);
+
+        return array_filter([
+            'error'        => $response['has_error'] === true ? (isset($response['data']) ? $response['data'] : true) : false,
+            'token'        => $response['token'],
+            'redirect_url' => $response['redirect_url'],
+        ]);
+    }
+
+    /**
+     * @param $token
+     *
+     * @return array
+     */
+    public function getAliasData($token)
+    {
+        $response = $this->requestHandler->createAliasAssertInsertRequest($token);
+
+        $params = [];
+
+        if ($response['has_error'] === true) {
+            $params['error'] = isset($response['error']) ? $response['error'] : true;
+        } else {
+
+
+            $paymentMeans = isset($response['payment_means'])  ? $response['payment_means'] : [];
+            $params['payment_means_brand_payment_method'] = isset($paymentMeans['Brand']['PaymentMethod'])  ? $paymentMeans['Brand']['PaymentMethod'] : null;
+            $params['payment_means_brand_name'] = isset($paymentMeans['Brand']['Name'])  ? $paymentMeans['Brand']['Name'] : null;
+
+            $params['payment_means_display_text'] = isset($paymentMeans['DisplayText']) ? $paymentMeans['DisplayText'] : null;
+            $params['payment_means_wallet'] = isset($paymentMeans['Wallet']) ? $paymentMeans['Wallet'] : null;
+
+            $params['payment_means_cart_masked_number'] = isset($paymentMeans['Card']['MaskedNumber'])  ? $paymentMeans['Card']['MaskedNumber'] : null;
+            $params['payment_means_cart_exp_year'] = isset($paymentMeans['Card']['ExpYear'])  ? $paymentMeans['Card']['ExpYear'] : null;
+            $params['payment_means_cart_exp_month'] = isset($paymentMeans['Card']['ExpMonth'])  ? $paymentMeans['Card']['ExpMonth'] : null;
+            $params['payment_means_cart_holder_name'] = isset($paymentMeans['Card']['HolderName'])  ? $paymentMeans['Card']['HolderName'] : null;
+            $params['payment_means_cart_hash_value'] = isset($paymentMeans['Card']['HashValue'])  ? $paymentMeans['Card']['HashValue'] : null;
+
+            $params['payment_means_bank_account_iban'] = isset($paymentMeans['BankAccount']['IBAN'])  ? $paymentMeans['BankAccount']['IBAN'] : null;
+            $params['payment_means_bank_account_holder_name'] = isset($paymentMeans['BankAccount']['HolderName'])  ? $paymentMeans['BankAccount']['HolderName'] : null;
+            $params['payment_means_bank_account_bic'] = isset($paymentMeans['BankAccount']['BIC'])  ? $paymentMeans['BankAccount']['BIC'] : null;
+            $params['payment_means_bank_account_bank_name'] = isset($paymentMeans['BankAccount']['BankName'])  ? $paymentMeans['BankAccount']['BankName'] : null;
+            $params['payment_means_bank_account_country_code'] = isset($paymentMeans['BankAccount']['CountryCode'])  ? $paymentMeans['BankAccount']['CountryCode'] : null;
+
+
+            $alias = isset($response['alias'])  ? $response['alias'] : [];
+            $params['alias_id'] = isset($alias['Id'])  ? $alias['Id'] : null;
+            $params['alias_lifetime'] = isset($alias['Lifetime'])  ? $alias['Lifetime'] : null;
+        }
+
+        return array_filter($params);
     }
 }
