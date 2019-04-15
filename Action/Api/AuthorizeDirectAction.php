@@ -2,6 +2,7 @@
 
 namespace DachcomDigital\Payum\Saferpay\Action\Api;
 
+use DachcomDigital\Payum\Saferpay\Request\Api\AuthorizeDirectPayment;
 use DachcomDigital\Payum\Saferpay\Request\Api\CapturePayment;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\ApiAwareInterface;
