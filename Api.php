@@ -125,11 +125,11 @@ class Api
             $params['payment_means_display_text'] = isset($paymentMeans['DisplayText']) ? $paymentMeans['DisplayText'] : null;
             $params['payment_means_wallet'] = isset($paymentMeans['Wallet']) ? $paymentMeans['Wallet'] : null;
 
-            $params['payment_means_cart_masked_number'] = isset($paymentMeans['Card']['MaskedNumber'])  ? $paymentMeans['Card']['MaskedNumber'] : null;
-            $params['payment_means_cart_exp_year'] = isset($paymentMeans['Card']['ExpYear'])  ? $paymentMeans['Card']['ExpYear'] : null;
-            $params['payment_means_cart_exp_month'] = isset($paymentMeans['Card']['ExpMonth'])  ? $paymentMeans['Card']['ExpMonth'] : null;
-            $params['payment_means_cart_holder_name'] = isset($paymentMeans['Card']['HolderName'])  ? $paymentMeans['Card']['HolderName'] : null;
-            $params['payment_means_cart_hash_value'] = isset($paymentMeans['Card']['HashValue'])  ? $paymentMeans['Card']['HashValue'] : null;
+            $params['payment_means_card_masked_number'] = isset($paymentMeans['Card']['MaskedNumber'])  ? $paymentMeans['Card']['MaskedNumber'] : null;
+            $params['payment_means_card_exp_year'] = isset($paymentMeans['Card']['ExpYear'])  ? $paymentMeans['Card']['ExpYear'] : null;
+            $params['payment_means_card_exp_month'] = isset($paymentMeans['Card']['ExpMonth'])  ? $paymentMeans['Card']['ExpMonth'] : null;
+            $params['payment_means_card_holder_name'] = isset($paymentMeans['Card']['HolderName'])  ? $paymentMeans['Card']['HolderName'] : null;
+            $params['payment_means_card_hash_value'] = isset($paymentMeans['Card']['HashValue'])  ? $paymentMeans['Card']['HashValue'] : null;
 
             $params['payment_means_bank_account_iban'] = isset($paymentMeans['BankAccount']['IBAN'])  ? $paymentMeans['BankAccount']['IBAN'] : null;
             $params['payment_means_bank_account_holder_name'] = isset($paymentMeans['BankAccount']['HolderName'])  ? $paymentMeans['BankAccount']['HolderName'] : null;
@@ -191,11 +191,11 @@ class Api
             $params['payment_means_display_text'] = isset($paymentMeans['DisplayText']) ? $paymentMeans['DisplayText'] : null;
             $params['payment_means_wallet'] = isset($paymentMeans['Wallet']) ? $paymentMeans['Wallet'] : null;
 
-            $params['payment_means_cart_masked_number'] = isset($paymentMeans['Card']['MaskedNumber'])  ? $paymentMeans['Card']['MaskedNumber'] : null;
-            $params['payment_means_cart_exp_year'] = isset($paymentMeans['Card']['ExpYear'])  ? $paymentMeans['Card']['ExpYear'] : null;
-            $params['payment_means_cart_exp_month'] = isset($paymentMeans['Card']['ExpMonth'])  ? $paymentMeans['Card']['ExpMonth'] : null;
-            $params['payment_means_cart_holder_name'] = isset($paymentMeans['Card']['HolderName'])  ? $paymentMeans['Card']['HolderName'] : null;
-            $params['payment_means_cart_hash_value'] = isset($paymentMeans['Card']['HashValue'])  ? $paymentMeans['Card']['HashValue'] : null;
+            $params['payment_means_card_masked_number'] = isset($paymentMeans['Card']['MaskedNumber'])  ? $paymentMeans['Card']['MaskedNumber'] : null;
+            $params['payment_means_card_exp_year'] = isset($paymentMeans['Card']['ExpYear'])  ? $paymentMeans['Card']['ExpYear'] : null;
+            $params['payment_means_card_exp_month'] = isset($paymentMeans['Card']['ExpMonth'])  ? $paymentMeans['Card']['ExpMonth'] : null;
+            $params['payment_means_card_holder_name'] = isset($paymentMeans['Card']['HolderName'])  ? $paymentMeans['Card']['HolderName'] : null;
+            $params['payment_means_card_hash_value'] = isset($paymentMeans['Card']['HashValue'])  ? $paymentMeans['Card']['HashValue'] : null;
 
             $params['payment_means_bank_account_iban'] = isset($paymentMeans['BankAccount']['IBAN'])  ? $paymentMeans['BankAccount']['IBAN'] : null;
             $params['payment_means_bank_account_holder_name'] = isset($paymentMeans['BankAccount']['HolderName'])  ? $paymentMeans['BankAccount']['HolderName'] : null;
@@ -305,11 +305,11 @@ class Api
             $params['payment_means_display_text'] = isset($paymentMeans['DisplayText']) ? $paymentMeans['DisplayText'] : null;
             $params['payment_means_wallet'] = isset($paymentMeans['Wallet']) ? $paymentMeans['Wallet'] : null;
 
-            $params['payment_means_cart_masked_number'] = isset($paymentMeans['Card']['MaskedNumber'])  ? $paymentMeans['Card']['MaskedNumber'] : null;
-            $params['payment_means_cart_exp_year'] = isset($paymentMeans['Card']['ExpYear'])  ? $paymentMeans['Card']['ExpYear'] : null;
-            $params['payment_means_cart_exp_month'] = isset($paymentMeans['Card']['ExpMonth'])  ? $paymentMeans['Card']['ExpMonth'] : null;
-            $params['payment_means_cart_holder_name'] = isset($paymentMeans['Card']['HolderName'])  ? $paymentMeans['Card']['HolderName'] : null;
-            $params['payment_means_cart_hash_value'] = isset($paymentMeans['Card']['HashValue'])  ? $paymentMeans['Card']['HashValue'] : null;
+            $params['payment_means_card_masked_number'] = isset($paymentMeans['Card']['MaskedNumber'])  ? $paymentMeans['Card']['MaskedNumber'] : null;
+            $params['payment_means_card_exp_year'] = isset($paymentMeans['Card']['ExpYear'])  ? $paymentMeans['Card']['ExpYear'] : null;
+            $params['payment_means_card_exp_month'] = isset($paymentMeans['Card']['ExpMonth'])  ? $paymentMeans['Card']['ExpMonth'] : null;
+            $params['payment_means_card_holder_name'] = isset($paymentMeans['Card']['HolderName'])  ? $paymentMeans['Card']['HolderName'] : null;
+            $params['payment_means_card_hash_value'] = isset($paymentMeans['Card']['HashValue'])  ? $paymentMeans['Card']['HashValue'] : null;
 
             $params['payment_means_bank_account_iban'] = isset($paymentMeans['BankAccount']['IBAN'])  ? $paymentMeans['BankAccount']['IBAN'] : null;
             $params['payment_means_bank_account_holder_name'] = isset($paymentMeans['BankAccount']['HolderName'])  ? $paymentMeans['BankAccount']['HolderName'] : null;
