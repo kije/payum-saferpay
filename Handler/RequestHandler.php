@@ -333,6 +333,14 @@ class RequestHandler
             ],
         ];
 
+        // merge additional data coming from the convert payment action (and extensions) like language
+        $requestData = $this->mergeOptionalPaymentExtensionData($requestData, $data);
+
+        // merge optional api options
+        if (!empty($this->options['optional_params'])) {
+            $requestData = $this->mergeOptionalApiOptions($requestData, $this->options['optional_params']);
+        }
+
         $url = $this->getApiEndpoint() . self::ALIAS_INSERT_PATH;
         $request = $this->doRequest($requestData, $url);
 
