@@ -7,6 +7,11 @@ use Payum\Core\Action\ActionInterface;
 use Payum\Core\ApiAwareInterface;
 use Payum\Core\Exception\UnsupportedApiException;
 
+/**
+ * Class BaseApiAwareAction
+ * @package DachcomDigital\Payum\Saferpay\Action\Api
+ * @property Api $api
+ */
 abstract class BaseApiAwareAction implements ActionInterface, ApiAwareInterface
 {
     /**

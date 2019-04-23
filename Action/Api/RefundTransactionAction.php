@@ -10,6 +10,11 @@ use DachcomDigital\Payum\Saferpay\Request\Api\RefundTransaction;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\Exception\RequestNotSupportedException;
 
+/**
+ * Class RefundTransactionAction
+ * @package DachcomDigital\Payum\Saferpay\Action\Api
+ * @property Api $api
+ */
 class RefundTransactionAction implements ActionInterface, ApiAwareInterface
 {
     use ApiAwareTrait;

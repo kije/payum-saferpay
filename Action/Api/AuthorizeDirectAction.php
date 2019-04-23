@@ -11,6 +11,12 @@ use DachcomDigital\Payum\Saferpay\Api;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\Exception\RequestNotSupportedException;
 
+/**
+ * Class AuthorizeDirectAction
+ * @package DachcomDigital\Payum\Saferpay\Action\Api
+ *
+ * @property Api $api
+ */
 class AuthorizeDirectAction implements ActionInterface, ApiAwareInterface
 {
     use ApiAwareTrait;

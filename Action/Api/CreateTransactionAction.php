@@ -12,6 +12,11 @@ use Payum\Core\Exception\LogicException;
 use Payum\Core\Exception\RequestNotSupportedException;
 use Payum\Core\Reply\HttpRedirect;
 
+/**
+ * Class CreateTransactionAction
+ * @package DachcomDigital\Payum\Saferpay\Action\Api
+ * @property Api $api
+ */
 class CreateTransactionAction implements ActionInterface, ApiAwareInterface
 {
     use ApiAwareTrait;

@@ -11,6 +11,11 @@ use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\Exception\RequestNotSupportedException;
 use Payum\Core\Exception\LogicException;
 
+/**
+ * Class GetTransactionDataAction
+ * @package DachcomDigital\Payum\Saferpay\Action\Api
+ * @property Api $api
+ */
 class GetTransactionDataAction implements ActionInterface, ApiAwareInterface
 {
     use ApiAwareTrait;
