@@ -10,7 +10,6 @@ use Payum\Core\ApiAwareInterface;
 use Payum\Core\ApiAwareTrait;
 use Payum\Core\GatewayAwareInterface;
 use Payum\Core\GatewayAwareTrait;
-use Payum\Core\Request\GetHttpRequest;
 use Payum\Core\Request\Sync;
 use Payum\Core\Security\GenericTokenFactoryAwareTrait;
 use Payum\Core\Bridge\Spl\ArrayObject;
@@ -52,7 +51,9 @@ class AuthorizeDirectAction implements ActionInterface, ApiAwareInterface, Gatew
 
         $this->gateway->execute(new AuthorizeDirectPayment($details));
 
-        $this->gateway->execute(new CapturePayment($details));
+        if (!isset($details['error'])) {
+            $this->gateway->execute(new CapturePayment($details));
+        }
 
         $this->gateway->execute(new Sync($details));
     }
