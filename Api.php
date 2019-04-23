@@ -82,6 +82,7 @@ class Api
 
         return array_filter([
             'error'        => $response['has_error'] === true ? (isset($response['data']) ? $response['data'] : true) : false,
+            'create_transaction_error'        => $response['has_error'] === true ? (isset($response['data']) ? $response['data'] : true) : false,
             'token'        => $response['token'],
             'redirect_url' => $response['redirect_url'],
         ]);
@@ -100,6 +101,7 @@ class Api
 
         if ($response['has_error'] === true) {
             $params['error'] = isset($response['error']) ? $response['error'] : true;
+            $params['authorize_direct_error'] = isset($response['error']) ? $response['error'] : true;
         } else {
 
             $transaction = isset($response['transaction'])  ? $response['transaction'] : [];
@@ -166,6 +168,7 @@ class Api
 
         if ($response['has_error'] === true) {
             $params['error'] = isset($response['error']) ? $response['error'] : true;
+            $params['get_transaction_data_error'] = isset($response['error']) ? $response['error'] : true;
         } else {
 
             $transaction = isset($response['transaction'])  ? $response['transaction'] : [];
@@ -229,6 +232,7 @@ class Api
 
         if ($response['has_error'] === true) {
             $params['error'] = isset($response['error']) ? $response['error'] : true;
+            $params['capture_error'] = isset($response['error']) ? $response['error'] : true;
         } else {
             $params['transaction_id'] = $response['transaction_id'];
             $params['transaction_status'] = $response['transaction_status'];
@@ -252,6 +256,7 @@ class Api
 
         if ($response['has_error'] === true) {
             $params['error'] = isset($response['error']) ? $response['error'] : true;
+            $params['refund_error'] = isset($response['error']) ? $response['error'] : true;
         } else {
             $transaction = $response['transaction'];
             $params['transaction_id'] = $transaction['Id'];
@@ -277,6 +282,7 @@ class Api
 
         return array_filter([
             'error'        => $response['has_error'] === true ? (isset($response['data']) ? $response['data'] : true) : false,
+            'insert_alias_error'        => $response['has_error'] === true ? (isset($response['data']) ? $response['data'] : true) : false,
             'token'        => $response['token'],
             'redirect_url' => $response['redirect_url'],
         ]);
@@ -295,6 +301,7 @@ class Api
 
         if ($response['has_error'] === true) {
             $params['error'] = isset($response['error']) ? $response['error'] : true;
+            $params['get_alias_data_error'] = isset($response['error']) ? $response['error'] : true;
         } else {
 
 
