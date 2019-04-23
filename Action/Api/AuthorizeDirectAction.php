@@ -56,6 +56,10 @@ class AuthorizeDirectAction implements ActionInterface, ApiAwareInterface
         $details->replace(
             $this->api->authorizeDirect((array)$details)
         );
+
+        if (isset($details['error'])) {
+            $details['transaction_failed'] = true;
+        }
     }
 
     /**
